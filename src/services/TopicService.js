@@ -1,5 +1,5 @@
 import axios from "axios";
-const API_URL = "https://java-server-assignment-5.herokuapp.com/";
+const API_URL = "https://java-server-assignment-5.herokuapp.com";
 
 export default class TopicService {
 
