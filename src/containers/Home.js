@@ -71,13 +71,14 @@ export default class Home extends Component {
     renderLander() {
         return (
             <div className="lander">
-                <h1>Scratch</h1>
-                <p>A simple note taking app</p>
+                <h1>WhiteBoard</h1>
+                <p>This is the home page for whiteboard. Please click on login or signup to continue</p>
                 <div>
-                    <Link to="/login" className="btn btn-info btn-lg">
+                    <Link className="mr-4" to="/login" className="btn btn-info btn-lg">
                         Login
                     </Link>
-                    <Link to="/signup" className="btn btn-success btn-lg">
+
+                    <Link to="/register" className="btn btn-success btn-lg">
                         Signup
                     </Link>
                 </div>

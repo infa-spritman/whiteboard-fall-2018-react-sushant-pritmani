@@ -3,6 +3,7 @@ import {FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 // import "./Login.css";
 import axios from 'axios';
+import {Link} from "react-router-dom";
 const API_URL = 'http://localhost:8080/';
 
 export default class Login extends Component {
@@ -58,7 +59,7 @@ export default class Login extends Component {
                 <div className="form-group row">
                     <label htmlFor="username" className="col-sm-2 col-form-label">Username </label>
                     <div className="col-sm-10">
-                        <input  value={this.state.email}
+                        <input  value={this.state.username}
                                 onChange={this.handleChange} className="form-control" id="username" placeholder="Alice"/>
                     </div>
                 </div>
@@ -97,7 +98,7 @@ export default class Login extends Component {
                                         <a href="/">Cancel</a>
                                     </div>
                                     <div className="col-4 text-right">
-                                        <a href="/register">Sign up</a>
+                                        <Link to="/register">Sign up</Link>
                                     </div>
                                 </div>
                             </div>

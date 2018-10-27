@@ -1,10 +1,9 @@
 import React, {Component} from "react";
-import {BrowserRouter as Router, withRouter, Switch, Link, Route, Redirect} from 'react-router-dom'
-import {Nav, Navbar, NavItem} from "react-bootstrap";
-import {LinkContainer} from "react-router-bootstrap";
+import {BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
 import Routes from "./Routes";
 import "./App.css";
+
 const API_URL = 'http://localhost:8080/';
 
 class App extends Component {

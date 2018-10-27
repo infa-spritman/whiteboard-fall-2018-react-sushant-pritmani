@@ -23,7 +23,7 @@ const CourseGrid = ({courses, deleteCourse, addCourse, courseTitle, updateTitle,
                 <div className="d-flex flex-row flex-wrap row">
 
                     {
-                        courses.map((course, index) =>
+                        courses && courses.length >0 && courses.map((course, index) =>
                             (<CourseCard
                                 deleteCourse={deleteCourse}
                                 key={index}

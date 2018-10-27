@@ -25,7 +25,7 @@ const CourseTable = ({courses, deleteCourse, addCourse, courseTitle, updateTitle
 
                     <div className="list-group-flush row">
                         {
-                            courses.map((course, index) =>
+                            courses && courses.length > 0 && courses.map((course, index) =>
                                 (<CourseRow
                                     deleteCourse={deleteCourse}
                                     key={index}
