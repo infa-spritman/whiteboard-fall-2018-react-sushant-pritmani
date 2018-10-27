@@ -4,7 +4,7 @@ import LoaderButton from "../components/LoaderButton";
 // import "./Login.css";
 import axios from 'axios';
 import {Link} from "react-router-dom";
-const API_URL = 'http://localhost:8080/';
+import UserService from "../services/UserService";
 
 export default class Login extends Component {
     constructor(props) {
@@ -37,7 +37,7 @@ export default class Login extends Component {
             password: this.state.password
         };
 
-        axios.post(API_URL + `api/login`, {...user}, {withCredentials: true})
+        UserService.login(user)
             .then(res => {
                 if (res.data) {
                     this.props.userHasAuthenticated(true);

@@ -3,8 +3,8 @@ import {BrowserRouter as Router} from 'react-router-dom'
 import axios from 'axios';
 import Routes from "./Routes";
 import "./App.css";
+import UserService from "./services/UserService"
 
-const API_URL = 'http://localhost:8080/';
 
 class App extends Component {
     constructor(props) {
@@ -17,7 +17,7 @@ class App extends Component {
     }
 
     componentWillMount = () => {
-        axios.get(API_URL + `api/profile`, {withCredentials: true})
+        UserService.profile()
             .then(res => {
                 if (res.data)
                     this.userHasAuthenticated(true);
@@ -37,8 +37,8 @@ class App extends Component {
         this.setState({isAuthenticated: authenticated});
     };
 
-    handleLogout = event => {
-        axios.post(API_URL + "api/profile", {withCredentials: true}).then(() => {
+    logout = event => {
+        UserService.logoutUser().then(() => {
                 this.userHasAuthenticated(false);
 
                 this.props.history.push("/login");
@@ -50,7 +50,8 @@ class App extends Component {
     render() {
         const childProps = {
             isAuthenticated: this.state.isAuthenticated,
-            userHasAuthenticated: this.userHasAuthenticated
+            userHasAuthenticated: this.userHasAuthenticated,
+            logout: this.logout
         };
 
         return (

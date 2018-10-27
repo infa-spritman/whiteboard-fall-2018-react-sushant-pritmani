@@ -1,15 +1,9 @@
 import React, {Component} from "react";
-import {
-    HelpBlock,
-    FormGroup,
-    FormControl,
-    ControlLabel
-} from "react-bootstrap";
+import UserService from "../services/UserService"
 import LoaderButton from "../components/LoaderButton";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
-
-const API_URL = 'http://localhost:8080/';
 
 export default class Register extends Component {
     constructor(props) {
@@ -50,8 +44,8 @@ export default class Register extends Component {
             password: this.state.password
         };
 
-        axios.post(API_URL + `api/register`, {...user}, {withCredentials: true})
-            .then(res => {
+
+            UserService.registerUser(user).then(res => {
                 if (res.data) {
                     this.props.userHasAuthenticated(true);
                     this.props.history.push("/");
@@ -105,11 +99,11 @@ export default class Register extends Component {
                             loadingText="Signing up…"
                             className="btn btn-primary btn-block"
                         />
-                            {/*<div className="row">*/}
-                                {/*<div className="col-6">*/}
-                                    {/*<a href="/login">Login</a>*/}
-                                {/*</div>*/}
-                            {/*</div>*/}
+                            <div className="row">
+                                <div className="col-6">
+                                    <Link to="/login">Login</Link>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>

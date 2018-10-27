@@ -3,9 +3,10 @@ import Navigation from "./Navigation";
 import CourseRow from "./CourseRow";
 
 
-const CourseTable = ({courses, deleteCourse, addCourse, courseTitle, updateTitle, togglePageView}) =>
+const CourseTable = ({courses, deleteCourse, addCourse, courseTitle, updateTitle, togglePageView, logout}) =>
     <div>
-        <Navigation togglePageView={togglePageView}
+        <Navigation logout={logout}
+                    togglePageView={togglePageView}
                     addCourse={addCourse}
                     courseTitle={courseTitle}
                     updateTitle={updateTitle}/>

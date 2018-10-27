@@ -2,9 +2,10 @@ import React from 'react'
 import Navigation from "./Navigation";
 import CourseCard from "./CourseCard";
 
-const CourseGrid = ({courses, deleteCourse, addCourse, courseTitle, updateTitle, togglePageView}) =>
+const CourseGrid = ({courses, deleteCourse, addCourse, courseTitle, updateTitle, togglePageView, logout}) =>
     <div>
-        <Navigation togglePageView={togglePageView}
+        <Navigation logout={logout}
+                    togglePageView={togglePageView}
                     addCourse={addCourse}
                     courseTitle={courseTitle}
                     updateTitle={updateTitle}/>

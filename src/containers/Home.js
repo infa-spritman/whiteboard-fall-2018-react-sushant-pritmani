@@ -96,12 +96,14 @@ export default class Home extends Component {
                         courseTitle={this.state.courseTitle}
                         updateTitle={this.updateTitle}
                         togglePageView={this.togglePageView}
+                        logout={this.props.logout}
                     /> : <CourseGrid
                         addCourse={this.addCourse}
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}
                         courseTitle={this.state.courseTitle}
                         togglePageView={this.togglePageView}
+                        logout={this.props.logout}
                     /> }
             </div>
         );

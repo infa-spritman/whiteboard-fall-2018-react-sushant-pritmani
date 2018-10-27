@@ -23,6 +23,10 @@ class Navigation extends Component {
                         title: this.props.courseTitle
                     })}
                         className="nav-item nav-link"><span className="fas fa-plus-circle icon" aria-hidden="true"></span></li>
+                    <li onClick={() => this.props.logout()}
+                        className="nav-item nav-link text-black btn-danger">Logout</li>
+                    {/*<li onClick={() => this.props.profile()}*/}
+                        {/*className="nav-item nav-link text-black btn-info">Profile</li>*/}
                 </ul>
             </nav>
         );
