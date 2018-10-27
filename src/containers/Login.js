@@ -41,6 +41,7 @@ export default class Login extends Component {
                     this.props.userHasAuthenticated(true);
                     this.props.history.push("/");
                 } else {
+                    alert("Username or password not in database")
                     this.setState({isLoading: false})
                 }
             }).catch(e => {
