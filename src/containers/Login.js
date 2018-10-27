@@ -1,8 +1,6 @@
 import React, {Component} from "react";
-import {FormGroup, FormControl, ControlLabel} from "react-bootstrap";
 import LoaderButton from "../components/LoaderButton";
 // import "./Login.css";
-import axios from 'axios';
 import {Link} from "react-router-dom";
 import UserService from "../services/UserService";
 

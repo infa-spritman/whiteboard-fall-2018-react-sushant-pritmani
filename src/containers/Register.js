@@ -1,7 +1,6 @@
 import React, {Component} from "react";
 import UserService from "../services/UserService"
 import LoaderButton from "../components/LoaderButton";
-import axios from "axios";
 import {Link} from "react-router-dom";
 
 
