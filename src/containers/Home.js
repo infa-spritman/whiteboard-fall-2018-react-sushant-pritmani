@@ -4,8 +4,8 @@ import { LinkContainer } from "react-router-bootstrap";
 import CourseService from "../services/CourseService"
 import CourseGrid from "../components/CourseGrid";
 import CourseTable from "../components/CourseTable";
-import { PageHeader, ListGroup, ListGroupItem } from "react-bootstrap";
 import "../css/Home.css";
+import UserService from "../services/UserService";
 
 export default class Home extends Component {
     constructor(props) {
@@ -32,6 +32,17 @@ export default class Home extends Component {
 
     togglePageView = () => {
         this.setState({ isTable : !this.state.isTable})
+    };
+
+    logout = event => {
+        return UserService.logoutUser().then(() => {
+
+            this.props.userHasAuthenticated(false);
+            this.props.history.push("/login");
+
+
+            }
+        )
     };
 
     findAllCourses = () => {
@@ -96,14 +107,14 @@ export default class Home extends Component {
                         courseTitle={this.state.courseTitle}
                         updateTitle={this.updateTitle}
                         togglePageView={this.togglePageView}
-                        logout={this.props.logout}
+                        logout={this.logout}
                     /> : <CourseGrid
                         addCourse={this.addCourse}
                         deleteCourse={this.deleteCourse}
                         courses={this.state.courses}
                         courseTitle={this.state.courseTitle}
                         togglePageView={this.togglePageView}
-                        logout={this.props.logout}
+                        logout={this.logout}
                     /> }
             </div>
         );

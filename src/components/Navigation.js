@@ -33,4 +33,4 @@ class Navigation extends Component {
     }
 }
 
-export default withRouter(Navigation);
+export default Navigation;

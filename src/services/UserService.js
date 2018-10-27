@@ -16,7 +16,7 @@ export default class UserService {
     };
 
     static logoutUser = () => {
-        return axios.post(API_URL + "/api/logout", {withCredentials: true});
+        return axios.post(API_URL + "/api/logout", {}, {withCredentials: true});
     };
 
     static findUserById = UserId => {
