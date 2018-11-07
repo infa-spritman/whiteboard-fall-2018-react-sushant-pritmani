@@ -17,7 +17,6 @@ class ModuleList extends Component {
     onSubmitForm = event => {
         event.preventDefault();
         const newModule = {
-            id: (new Date()).getTime() + '',
             title: this.state.newModuleTitle || 'New Module'
         };
         this.props.addModule(newModule);
