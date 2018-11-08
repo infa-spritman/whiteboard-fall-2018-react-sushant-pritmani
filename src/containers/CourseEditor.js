@@ -5,6 +5,8 @@ import TopicPills from "../components/TopicsPills"
 import {Link} from "react-router-dom";
 import CourseService from "../services/CourseService"
 import ModuleService from "../services/ModuleService"
+import LessonService from "../services/LessonService"
+import TopicService from "../services/TopicService"
 // import WidgetReducer from "../reducers/WidgetReducer"
 // import {createStore} from 'redux'
 // import {Provider} from 'react-redux'
@@ -29,6 +31,7 @@ export default class CourseEditor extends Component {
         }
 
     }
+
     componentWillMount = () => {
         if (!this.props.isAuthenticated) {
             return;
@@ -82,15 +85,17 @@ export default class CourseEditor extends Component {
                 const course = res.data;
                 this.setState({
                     course: course
+                }, () => {
+                    if (course.modules.length === 1)
+                        this.selectModule(course.modules[0])
                 });
-                if (course.modules.length === 1)
-                    this.selectModule(course.modules[0])
+
             });
         });
     };
     editModule = (moduleToEdited, moduleTitle) => {
 
-       return ModuleService.updateModule(moduleToEdited.id, {'title': moduleTitle}).then(res => {
+        return ModuleService.updateModule(moduleToEdited.id, {'title': moduleTitle}).then(res => {
             return CourseService.findCourseById(this.state.course.id).then(res => {
                 const course = res.data;
                 this.setState({
@@ -99,6 +104,7 @@ export default class CourseEditor extends Component {
             });
         });
     };
+
     deleteModule = moduleToDelete => {
         const courseID = this.state.course.id;
 
@@ -107,11 +113,13 @@ export default class CourseEditor extends Component {
                 const course = res.data;
                 this.setState({
                     course: course
-                });
-                if (this.state.selectedModule.id === moduleToDelete.id) {
+                }, () => {
+                    if (this.state.selectedModule.id === moduleToDelete.id) {
 
-                    this.selectModule(this.state.course.modules && this.state.course.modules.length ? this.state.course.modules[0] : {})
-                }
+                        this.selectModule(this.state.course.modules && this.state.course.modules.length ? this.state.course.modules[0] : {})
+                    }
+                });
+
             });
         });
     };
@@ -124,50 +132,72 @@ export default class CourseEditor extends Component {
     };
 
     // Lesson
-    // selectLesson = lesson =>
-    //     this.setState({
-    //         selectedLesson: lesson,
-    //         selectedTopic: lesson.topics && lesson.topics.length ? lesson.topics[0] : {}
-    //     });
-    // addLesson = lesson => {
-    //     const course = this.state.course;
-    //     const module = this.state.selectedModule;
-    //     if (!module.lessons)
-    //         module.lessons = [];
-    //     module.lessons.push(lesson);
-    //     this.props.updateCourse(course.id, course);
-    //     if (module.lessons.length === 1)
-    //         this.selectLesson(module.lessons[0])
-    //
-    // };
-    // editLesson = (lessonToEdited, lessonTitle) => {
-    //     this.state.course.modules.map(module => {
-    //         if (module.id === this.state.selectedModule.id) {
-    //             module.lessons.map(lesson => {
-    //                 if (lesson.id === lessonToEdited.id) {
-    //                     lesson.title = lessonTitle;
-    //                 }
-    //                 return lesson;
-    //             })
-    //         }
-    //         return module;
-    //     });
-    //
-    //     this.props.updateCourse(this.state.course.id, this.state.course);
-    // };
-    // deleteLesson = lessonToDelete => {
-    //     const course = this.state.course;
-    //     const module = this.state.selectedModule;
-    //
-    //     module.lessons = module.lessons.filter(
-    //         lesson => lesson.id !== lessonToDelete.id
-    //     );
-    //     this.props.updateCourse(course.id, course);
-    //     if (this.state.selectedLesson.id === lessonToDelete.id) {
-    //
-    //         this.selectLesson(this.state.selectedModule.lessons && this.state.selectedModule.lessons.length ? this.state.selectedModule.lessons[0] : {})
-    //     }
-    // };
+    selectLesson = lesson =>
+        this.setState({
+            selectedLesson: lesson,
+            selectedTopic: lesson.topics && lesson.topics.length ? lesson.topics[0] : {}
+        });
+
+    addLesson = lesson => {
+        const courseID = this.state.course.id;
+        const moduleId = this.state.selectedModule.id;
+
+        return LessonService.createLesson(moduleId, lesson).then(res => {
+            return CourseService.findCourseById(courseID).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId);
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule[0]
+                }, () => {
+                    if (this.state.selectedModule.lessons.length === 1)
+                        this.selectLesson(this.state.selectedModule.lessons[0]);
+                });
+            });
+        })
+    };
+
+
+    editLesson = (lessonToEdited, lessonTitle) => {
+        const moduleId = this.state.selectedModule.id;
+
+        return LessonService.updateLesson(lessonToEdited.id, {'title': lessonTitle}).then(res => {
+            return CourseService.findCourseById(this.state.course.id).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId);
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule[0]
+                });
+            });
+        });
+    };
+
+    deleteLesson = lessonToDelete => {
+        const courseID = this.state.course.id;
+        const moduleId = this.state.selectedModule.id;
+
+
+        return LessonService.deleteLesson(lessonToDelete.id).then(res => {
+            return CourseService.findCourseById(courseID).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId);
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule[0]
+                }, () => {
+                    if (this.state.selectedLesson.id === lessonToDelete.id) {
+
+                        this.selectLesson(this.state.selectedModule.lessons && this.state.selectedModule.lessons.length ? this.state.selectedModule.lessons[0] : {})
+                    }
+                });
+
+            });
+        });
+    };
 
     // Topic
     // selectTopic = topic =>
@@ -284,12 +314,12 @@ export default class CourseEditor extends Component {
                                 </li>
                             }
                         </ul>
-                        {/*<LessonTabs*/}
-                        {/*selectLesson={this.selectLesson}*/}
-                        {/*deleteLesson={this.deleteLesson}*/}
-                        {/*editLesson={this.editLesson}*/}
-                        {/*addLesson={this.addLesson}*/}
-                        {/*state={this.state}/>*/}
+                        <LessonTabs
+                            selectLesson={this.selectLesson}
+                            deleteLesson={this.deleteLesson}
+                            editLesson={this.editLesson}
+                            addLesson={this.addLesson}
+                            state={this.state}/>
 
 
                     </nav>

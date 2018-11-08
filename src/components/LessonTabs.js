@@ -18,7 +18,6 @@ class LessonTabs extends Component {
     onSubmitForm = event => {
         event.preventDefault();
         const newLesson = {
-            id: (new Date()).getTime() + '',
             title: this.state.newLessonTitle || 'New Lesson'
         };
         this.props.addLesson(newLesson);

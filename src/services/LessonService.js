@@ -1,14 +1,14 @@
 import axios from "axios";
-const API_URL = "https://java-server-assignment-5.herokuapp.com";
+const API_URL = "http://localhost:8080";
 
 export default class LessonService {
 
-    static findAllLessons = () => {
-        return axios.get(API_URL + "/api/lesson", {withCredentials: true});
+    static findAllLessons = (mid) => {
+        return axios.get(API_URL + "/api/module/"+ mid +"/lesson", {withCredentials: true});
     };
 
-    static createLesson = Lesson => {
-        return axios.post(API_URL + "/api/lesson", Lesson, {withCredentials: true});
+    static createLesson = (mid, Lesson) => {
+        return axios.post(API_URL + "/api/module/" + mid + "/lesson", Lesson, {withCredentials: true});
     };
 
     static deleteLesson = LessonId => {
