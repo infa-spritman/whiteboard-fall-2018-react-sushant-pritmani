@@ -18,7 +18,6 @@ class TopicsPills extends Component {
     onSubmitForm = event => {
         event.preventDefault();
         const newTopic = {
-            id: (new Date()).getTime() + '',
             title: this.state.newTopicTitle || 'New Topic'
         };
         this.props.addTopic(newTopic);

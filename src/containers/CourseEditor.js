@@ -155,7 +155,7 @@ export default class CourseEditor extends Component {
                         this.selectLesson(this.state.selectedModule.lessons[0]);
                 });
             });
-        })
+        });
     };
 
 
@@ -200,55 +200,77 @@ export default class CourseEditor extends Component {
     };
 
     // Topic
-    // selectTopic = topic =>
-    //     this.setState({
-    //         selectedTopic: topic
-    //     });
-    // addTopic = topic => {
-    //     const course = this.state.course;
-    //     const lesson = this.state.selectedLesson;
-    //     if (!lesson.topics)
-    //         lesson.topics = [];
-    //     lesson.topics.push(topic);
-    //     this.props.updateCourse(course.id, course);
-    //     if (lesson.topics.length === 1)
-    //         this.selectTopic(lesson.topics[0])
-    //
-    // };
-    // editTopic = (topicToEdited, topicTitle) => {
-    //     this.state.course.modules.map(module => {
-    //         if (module.id === this.state.selectedModule.id) {
-    //             module.lessons.map(lesson => {
-    //                 if (lesson.id === this.state.selectedLesson.id) {
-    //                     lesson.topics.map(topic => {
-    //                         if (topic.id === topicToEdited.id) {
-    //                             topic.title = topicTitle;
-    //                         }
-    //
-    //                         return topic
-    //                     })
-    //                 }
-    //                 return lesson;
-    //             })
-    //         }
-    //         return module;
-    //     });
-    //
-    //     this.props.updateCourse(this.state.course.id, this.state.course);
-    // };
-    // deleteTopic = topicToDelete => {
-    //     const course = this.state.course;
-    //     const lesson = this.state.selectedLesson;
-    //
-    //     lesson.topics = lesson.topics.filter(
-    //         topic => topic.id !== topicToDelete.id
-    //     );
-    //     this.props.updateCourse(course.id, course);
-    //     if (this.state.selectedTopic.id === topicToDelete.id) {
-    //
-    //         this.selectTopic(this.state.selectedLesson.topics && this.state.selectedLesson.topics.length ? this.state.selectedLesson.topics[0] : {})
-    //     }
-    // };
+    selectTopic = topic =>
+        this.setState({
+            selectedTopic: topic
+        });
+
+    addTopic = topic => {
+        const courseID = this.state.course.id;
+        const moduleId = this.state.selectedModule.id;
+        const lessonId = this.state.selectedLesson.id;
+
+        return TopicService.createTopic(lessonId, topic).then(res => {
+            return CourseService.findCourseById(courseID).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId)[0];
+                const currentLesson = currentModule.lessons.filter(x => x.id === lessonId)[0];
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule,
+                    selectedLesson: currentLesson
+                }, () => {
+                    if (this.state.selectedLesson.topics.length === 1)
+                        this.selectTopic(this.state.selectedLesson.topics[0]);
+                });
+            });
+        });
+    };
+    editTopic = (topicToEdited, topicTitle) => {
+        const moduleId = this.state.selectedModule.id;
+        const lessonId = this.state.selectedLesson.id;
+
+        return TopicService.updateTopic(topicToEdited.id, {'title': topicTitle}).then(res => {
+            return CourseService.findCourseById(this.state.course.id).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId)[0];
+                const currentLesson = currentModule.lessons.filter(x => x.id === lessonId)[0];
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule,
+                    selectedLesson: currentLesson
+                });
+            });
+        });
+    };
+    deleteTopic = topicToDelete => {
+        const courseID = this.state.course.id;
+        const moduleId = this.state.selectedModule.id;
+        const lessonId = this.state.selectedLesson.id;
+
+        return TopicService.deleteTopic(topicToDelete.id).then(res => {
+            return CourseService.findCourseById(courseID).then(res => {
+                const course = res.data;
+                const currentModule = course.modules.filter(x => x.id === moduleId)[0];
+                const currentLesson = currentModule.lessons.filter(x => x.id === lessonId)[0];
+
+
+                this.setState({
+                    course: course,
+                    selectedModule: currentModule,
+                    selectedLesson: currentLesson
+                }, () => {
+                    if (this.state.selectedTopic.id === topicToDelete.id) {
+
+                        this.selectTopic(this.state.selectedLesson.topics && this.state.selectedLesson.topics.length ? this.state.selectedLesson.topics[0] : {})
+                    }
+                });
+
+            });
+        });
+    };
     onCourseTitleInputChange = event => {
         this.setState({
             courseTitle: event.target.value
@@ -335,12 +357,12 @@ export default class CourseEditor extends Component {
                                 state={this.state}/>
                             <div className="col-md-9">
                                 <div className="row">
-                                    {/*<TopicPills*/}
-                                    {/*selectTopic={this.selectTopic}*/}
-                                    {/*deleteTopic={this.deleteTopic}*/}
-                                    {/*editTopic={this.editTopic}*/}
-                                    {/*addTopic={this.addTopic}*/}
-                                    {/*state={this.state}/>*/}
+                                    <TopicPills
+                                    selectTopic={this.selectTopic}
+                                    deleteTopic={this.deleteTopic}
+                                    editTopic={this.editTopic}
+                                    addTopic={this.addTopic}
+                                    state={this.state}/>
                                 </div>
                                 {/*<Provider store={store}>*/}
                                 {/*<WidgetListContainer*/}
