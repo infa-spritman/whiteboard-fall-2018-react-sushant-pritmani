@@ -57,8 +57,17 @@ const dispatcherToPropertyMapper = dispatch => ({
     findAllWidgets: () => dispatch({
         type: 'FIND_ALL_WIDGETS',
     }),
+    saveAllWidgets: (topic, widgets) => {
+        return WidgetService.saveAllWidgets(topic.id, widgets)
+            .then(res => (res.data))
+            .then(widgets => dispatch({
+                type: 'SAVE',
+                widgets: widgets,
+                topic: topic
+            }));
+    }
 
-})
+});
 
 const WidgetListContainer = connect
 (stateToPropertyMapper, dispatcherToPropertyMapper)(WidgetList)

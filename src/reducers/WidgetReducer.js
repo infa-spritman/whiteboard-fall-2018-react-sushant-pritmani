@@ -1,8 +1,15 @@
 import CourseService from '../services/CourseService'
+import randomId from 'random-id'
 
 const WidgetReducer = (state = {widgets: []}, action) => {
     switch (action.type) {
         case "INIT":
+            // console.log("INIT", (new Date()).getTime())
+            return {
+                widgets: action.widgets,
+                selectedTopic: action.topic
+            };
+        case "SAVE":
             // console.log("INIT", (new Date()).getTime())
             return {
                 widgets: action.widgets,
@@ -44,6 +51,7 @@ const WidgetReducer = (state = {widgets: []}, action) => {
         //     };
         case "CREATE_WIDGET":
             let new_widget = {
+                'id' : randomId(5,'09') ,
                 "name": '',
                 "widgetType": 'HEADING',
                 "size": 1,

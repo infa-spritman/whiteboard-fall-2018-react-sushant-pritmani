@@ -11,6 +11,10 @@ export default class WidgetService {
         return axios.post(API_URL + "/api/topic/"+ tid + "/widget", widget, {withCredentials: true});
     };
 
+    static saveAllWidgets = (tid, widgets) => {
+        return axios.post(API_URL + "/api/topic/"+ tid + "/widget/save", widgets, {withCredentials: true});
+    };
+
     static deletewidget = widgetId => {
         return axios.delete(API_URL + "/api/widget/" + widgetId, {withCredentials: true});
     };

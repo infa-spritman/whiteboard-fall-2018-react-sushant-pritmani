@@ -9,7 +9,7 @@ import "../css/Home.css";
 class WidgetList extends React.Component {
     constructor(props) {
         super(props);
-        props.init(props.widgetsInit, props.topic)
+        props.loadWidgets(props.topic)
     }
 
     componentDidUpdate(prevProps) {
@@ -23,9 +23,7 @@ class WidgetList extends React.Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="row mx-3 my-1 float-right">
-                            <button onClick={() => this.props.widgets.forEach(widget => {
-                                this.props.updateWidget(widget)
-                            })} type="button" className="btn btn-success mr-3">Save
+                            <button onClick={() => this.props.saveAllWidgets(this.props.topic, this.props.widgets)} type="button" className="btn btn-success mr-3">Save
                             </button>
                             <h6 className="mr-2 pt-2">Preview</h6>
                             <label className="switch mr-2">
