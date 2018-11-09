@@ -19,7 +19,7 @@ const HeadingWidget = ({widget, topic,updateWidget, deleteWidget, moveWidget, pr
                                         className="btn btn-default mr-3 bg-warning">&darr;</button>}
                                 <select onChange={(event) => {
                                     selectWidget(Object.assign({}, widget),event.target.value);
-                                }} value={widget.type} className="form-control mr-3 custom-select list-option">
+                                }} value={widget.widgetType} className="form-control mr-3 custom-select list-option">
                                     <option value="HEADING">Heading</option>
                                     <option value="LIST">List</option>
                                     <option value="PARAGRAPH">Paragraph</option>

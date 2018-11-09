@@ -25,31 +25,17 @@ const dispatcherToPropertyMapper = dispatch => ({
                 topic: topic
             }));
     },
-    deleteWidget: (widget, topic) => {
-        return WidgetService.deletewidget(widget.id).then(() => (WidgetService.findAllWidgets(topic.id)))
-            .then(res => (res.data))
-            .then(widgets => dispatch({
-                type: 'DELETE_WIDGET',
-                widgets: widgets
-            }));
-    },
+    deleteWidget: (widget,topic) => dispatch({
+        type: 'DELETE_WIDGET',
+        widget: widget
+    }),
     updateWidget: widget => dispatch({
         type: 'UPDATE_WIDGET',
         widget: widget
     }),
-    createWidget: (topic) => {
-        let new_widget = {
-            "name": '',
-            "size": 1,
-            "text": ''
-        };
-        return HeadingWidgetService.createHeadingwidget(topic.id,new_widget).then(() => (WidgetService.findAllWidgets(topic.id)))
-            .then(res => (res.data))
-            .then(widgets => dispatch({
-                type: 'CREATE_WIDGET',
-                widgets: widgets
-            }));
-    },
+    createWidget: (topic) => dispatch({
+        type: 'CREATE_WIDGET'
+    }),
     moveWidget: (index, direction, widget) => dispatch({
         type: 'MOVE_WIDGET',
         widget: widget,
