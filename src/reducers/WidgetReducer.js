@@ -36,19 +36,18 @@ const WidgetReducer = (state = {widgets: []}, action) => {
                 widgets: prev_widgets ? prev_widgets.slice(0) : [],
                 selectedTopic: state.selectedTopic
             };
-        // case "MOVE_WIDGET":
-        //     let local_index = action.index;
-        //     if (action.direction === "DOWN")
-        //         local_index += 1;
-        //     const new_widgets = [...state.widgets.slice(0, local_index - 1),
-        //         ...state.widgets.slice(local_index, local_index + 1),
-        //         ...state.widgets.slice(local_index - 1, local_index),
-        //         ...state.widgets.slice(local_index + 1)];
-        //     CourseService.updateWidgetsForTopic(state.selectedTopic, new_widgets);
-        //     return {
-        //         widgets: CourseService.findWidgetsForTopic(state.selectedTopic).slice(0),
-        //         selectedTopic: state.selectedTopic
-        //     };
+        case "MOVE_WIDGET":
+            let local_index = action.index;
+            if (action.direction === "DOWN")
+                local_index += 1;
+            const new_widgets = [...state.widgets.slice(0, local_index - 1),
+                ...state.widgets.slice(local_index, local_index + 1),
+                ...state.widgets.slice(local_index - 1, local_index),
+                ...state.widgets.slice(local_index + 1)];
+            return {
+                widgets: new_widgets,
+                selectedTopic: state.selectedTopic
+            };
         case "CREATE_WIDGET":
             let new_widget = {
                 'id' : randomId(5,'09') ,
