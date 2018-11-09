@@ -7,12 +7,13 @@ import CourseService from "../services/CourseService"
 import ModuleService from "../services/ModuleService"
 import LessonService from "../services/LessonService"
 import TopicService from "../services/TopicService"
-// import WidgetReducer from "../reducers/WidgetReducer"
-// import {createStore} from 'redux'
-// import {Provider} from 'react-redux'
-// import WidgetListContainer from '../containers/WidgetListContainer'
+import WidgetReducer from "../reducers/WidgetReducer"
+import {createStore} from 'redux'
+import {Provider} from 'react-redux'
+import WidgetListContainer from '../containers/WidgetListContainer'
 
-// const store = createStore(WidgetReducer);
+
+const store = createStore(WidgetReducer);
 
 export default class CourseEditor extends Component {
 
@@ -77,6 +78,7 @@ export default class CourseEditor extends Component {
         })
 
     };
+
     addModule = module => {
         const courseID = this.state.course.id;
 
@@ -93,6 +95,7 @@ export default class CourseEditor extends Component {
             });
         });
     };
+
     editModule = (moduleToEdited, moduleTitle) => {
 
         return ModuleService.updateModule(moduleToEdited.id, {'title': moduleTitle}).then(res => {
@@ -364,13 +367,13 @@ export default class CourseEditor extends Component {
                                     addTopic={this.addTopic}
                                     state={this.state}/>
                                 </div>
-                                {/*<Provider store={store}>*/}
-                                {/*<WidgetListContainer*/}
-                                {/*topic={this.state.selectedTopic || {}}*/}
-                                {/*previewMode={this.state.previewMode}*/}
-                                {/*togglePreview={this.togglePreview}*/}
-                                {/*widgetsInit={this.state.selectedTopic && this.state.selectedTopic.widgets && this.state.selectedTopic.widgets.length ? this.state.selectedTopic.widgets : []}/>*/}
-                                {/*</Provider>*/}
+                                {this.state.selectedTopic.id >= 0 && <Provider store={store}>
+                                <WidgetListContainer
+                                topic={this.state.selectedTopic || {}}
+                                previewMode={this.state.previewMode}
+                                togglePreview={this.togglePreview}
+                                widgetsInit={this.state.selectedTopic && this.state.selectedTopic.widgets && this.state.selectedTopic.widgets.length ? this.state.selectedTopic.widgets : []}/>
+                                </Provider>}
                             </div>
 
                         </div>
